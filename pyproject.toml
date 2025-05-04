@@ -1,32 +1,73 @@
 [build-system]
-requires = ["setuptools>=42.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "nonebot-plugin-qqdetail"
-version = "0.1.0"
-description = "让机器人查询QQ详细信息"
-readme = "README.md"
-authors = [
-    {name = "006lp", email = "kirakirai8023@gmail.com"}
-]
+version = "1.1.0" 
+description = "让机器人查询QQ详细信息 (A NoneBot plugin to query QQ details)"
+readme = "README.md" 
 requires-python = ">=3.10"
+license = { text = "GNU Affero General Public License v3" }
+authors = [
+    { name = "006lp", email = "kirakirai8023@gmail.com" }
+]
+keywords = ["qq", "detail", "info", "nonebot", "nonebot2", "plugin"]
+
+# 项目依赖
+dependencies = [
+    "nonebot2>=2.1.0",            # NoneBot 核心
+    "nonebot-adapter-onebot>=2.2.0", # OneBot V11 适配器
+    "httpx>=0.24.0",              # HTTP 客户端
+    "pydantic>=1.10.0,<3.0.0",    # 数据模型验证 (Config 用到)
+]
+
+# 项目元数据和链接
 classifiers = [
+    "Development Status :: 4 - Beta", # 或根据实际情况选择
+    "Framework :: NoneBot",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-]
-dependencies = [
-    "nonebot2>=2.0.0",
-    "nonebot-adapter-onebot>=2.0.0",
-    "httpx>=0.24.0",
-    "pydantic>=1.10.0",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Communications :: Chat",
+    "Topic :: Utilities",
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/006lp/nonebot-plugin-qqdetail"
-"Bug Tracker" = "https://github.com/006lp/nonebot-plugin-qqdetail/issues"
+Homepage = "https://github.com/006lp/nonebot-plugin-qqdetail"
+Repository = "https://github.com/006lp/nonebot-plugin-qqdetail"
+# "Bug Tracker" = "https://github.com/006lp/nonebot-plugin-qqdetail/issues" # 如果需要可以取消注释
 
-[tool.setuptools]
-packages = ["nonebot_plugin_qqdetail"]
+# --- 工具特定配置 (可选，但推荐) ---
+
+# PDM 配置 (如果使用 PDM 管理项目)
+# [tool.pdm]
+# # PDM 会自动读取 [project] 部分的依赖项
+# [tool.pdm.dev-dependencies]
+# # 开发依赖，例如 linters, formatters, testing tools
+# # dev = ["pytest", "ruff"]
+
+# Hatchling 配置 (构建系统)
+[tool.hatch.version]
+path = "nonebot_plugin_qqdetail/__init__.py" # 假设你的插件代码在 nonebot_plugin_qqdetail 目录下
+# 如果你的 __init__.py 不在子目录，而是直接在项目根目录，可能需要调整或移除此行
+# Hatch 会尝试从 [project].version 获取版本，或从指定文件读取 __version__ = "..."
+
+[tool.hatch.build.targets.sdist]
+# 包含/排除 sdist 中的文件
+include = [
+    "/nonebot_plugin_qqdetail", # 包含你的插件代码目录
+    "/pyproject.toml",
+    "/README.md",
+    "/LICENSE", # 如果你有 LICENSE 文件
+]
+
+[tool.hatch.build.targets.wheel]
+# 包含/排除 wheel 中的文件
+packages = ["nonebot_plugin_qqdetail"] # 指定包含的 Python 包
+

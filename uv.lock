@@ -278,7 +278,7 @@ wheels = [
 
 [[package]]
 name = "nonebot-plugin-qqdetail"
-version = "0.1.0"
+version = "1.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
@@ -290,9 +290,9 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "httpx", specifier = ">=0.24.0" },
-    { name = "nonebot-adapter-onebot", specifier = ">=2.0.0" },
-    { name = "nonebot2", specifier = ">=2.0.0" },
-    { name = "pydantic", specifier = ">=1.10.0" },
+    { name = "nonebot-adapter-onebot", specifier = ">=2.2.0" },
+    { name = "nonebot2", specifier = ">=2.1.0" },
+    { name = "pydantic", specifier = ">=1.10.0,<3.0.0" },
 ]
 
 [[package]]
