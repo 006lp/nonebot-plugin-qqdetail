@@ -4,6 +4,7 @@ from nonebot.adapters.onebot.v11 import Message, MessageSegment, Bot, Event
 from nonebot.params import CommandArg
 from nonebot.plugin import PluginMetadata
 from .config import config
+from nonebot.matcher import Matcher
 
 __plugin_meta__ = PluginMetadata(
     name="QQ详细信息查询",
@@ -40,7 +41,10 @@ async def fetch_qq_detail(uid: str) -> dict:
 
 # 处理 /detail 命令
 @qq_detail.handle()
-async def handle_info(bot: Bot, event: Event, arg: CommandArg = CommandArg()):
+async def handle_info(bot: Bot, event: Event, matcher: Matcher, arg: CommandArg = CommandArg()):
+    # ✨ 阻止其他 matcher（包括其他插件）继续处理
+    matcher.stop_propagation()  
+
     # 获取UID，如果没有提供，默认使用发送者的UID
     uid = await get_uid(event)
     
