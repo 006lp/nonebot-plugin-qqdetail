@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=42.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nonebot-plugin-qqdetail"
+version = "0.1.0"
+description = "让机器人查询QQ详细信息"
+readme = "README.md"
+authors = [
+    {name = "006lp", email = "kirakirai8023@gmail.com"}
+]
+requires-python = ">=3.10"
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "nonebot2>=2.0.0",
+    "nonebot-adapter-onebot>=2.0.0",
+    "httpx>=0.24.0",
+    "pydantic>=1.10.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/006lp/nonebot-plugin-qqdetail"
+"Bug Tracker" = "https://github.com/006lp/nonebot-plugin-qqdetail/issues"
+
+[tool.setuptools]
+packages = ["nonebot_plugin_qqdetail"]
