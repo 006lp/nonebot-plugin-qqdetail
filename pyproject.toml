@@ -1,32 +1,32 @@
 # pyproject.toml
 
 [build-system]
+# 假设你仍然使用 hatchling 或需要指定 poetry-core 等，
+# 这个模板没有提供 build-system，你需要根据你的构建工具添加。
+# 如果你继续使用 hatchling (uv build 默认会用):
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+# 如果你想用 poetry (需要安装 poetry 并使用 poetry build):
+# requires = ["poetry-core>=1.0.0"]
+# build-backend = "poetry.core.masonry.api"
 
 [project]
-name = "nonebot-plugin-qqdetail"
-version = "1.2.1" 
-description = "让机器人查询QQ详细信息 (A NoneBot plugin to query QQ details)"
+name = "nonebot-plugin-qqdetail" # 插件发布名称
+version = "1.3.0"                # 当前版本号 (请根据实际情况修改)
+description = "让机器人查询QQ详细信息 (使用正则严格匹配)" # 使用 __plugin_meta__ 中的描述
 readme = "README.md"
-requires-python = ">=3.10"
-license = { text = "GNU Affero General Public License v3" } 
-authors = [
-    { name = "006lp", email = "kirakirai8023@gmail.com" }
-]
-keywords = ["qq", "detail", "info", "nonebot", "nonebot2", "plugin"]
-
-# 项目依赖
+authors = [{ name = "006lp", email = "kirakirai8023@gmail.com" }] # 你的作者信息
+urls = { Repository = "https://github.com/006lp/nonebot-plugin-qqdetail" } # 你的仓库地址
+requires-python = ">=3.10,<4.0"
 dependencies = [
-    "nonebot2>=2.1.0",
-    "nonebot-adapter-onebot>=2.2.0",
-    "httpx>=0.24.0",
-    "pydantic>=1.10.0,<3.0.0",
+  "nonebot2>=2.4.2,<3.0.0", 
+  "nonebot-adapter-onebot>=2.4.6,<3.0.0", 
+  "httpx>=0.27.0,<1.0.0", 
 ]
-
-# 项目元数据和链接
+# 添加 classifiers (从之前的 pyproject.toml 中借鉴并修正)
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Framework :: AsyncIO",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU Affero General Public License v3", 
     "Operating System :: OS Independent",
@@ -38,24 +38,90 @@ classifiers = [
     "Topic :: Communications :: Chat",
     "Topic :: Utilities",
 ]
+keywords = ["qq", "detail", "info", "nonebot", "nonebot2", "plugin"]
 
-[project.urls]
-Homepage = "https://github.com/006lp/nonebot-plugin-qqdetail"
-Repository = "https://github.com/006lp/nonebot-plugin-qqdetail"
-# "Bug Tracker" = "https://github.com/006lp/nonebot-plugin-qqdetail/issues"
+[dependency-groups]
+dev = [
+  "nonebot2[fastapi]>=2.4.2,<3.0.0",
+  "ruff>=0.11.2,<1.0.0",
+]
 
-# --- Hatchling 配置 ---
+test = [
+  "nonebot2[fastapi]>=2.4.2,<3.0.0",
+  "nonebot-adapter-onebot>=2.4.6,<3.0.0",
+  "nonebug>=0.3.7,<1.0.0",
+  "pytest-xdist>=3.6.1,<4.0.0",
+  "pytest-asyncio>=0.26.0,<1.0.0",
+]
 
+[tool.nonebot]
+# 指定插件的包名 (需要与你的目录结构匹配)
+# 假设你的代码在 nonebot_plugin_qqdetail/ 目录下
+plugins = ["nonebot_plugin_qqdetail"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+# 确保这里的路径与你的项目结构和 [tool.nonebot] 配置一致
+pythonpath = [".", "nonebot_plugin_qqdetail", "tests"]
+addopts = [
+  "-v",
+  "-s",
+  "--tb=short",
+  "-ra",
+  "--strict-markers",
+  # "--doctest-modules",
+  "--import-mode=prepend",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.ruff.lint]
+select = [
+  "F", "W", "E", "I", "UP", "ASYNC", "C4", "T10", "T20", "PYI", "PT", "Q", "TID", "RUF",
+]
+ignore = [
+  "E402", "UP037", "RUF001", "RUF002", "RUF003", "W191", "TID252",
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["tests/*", "nonebot_plugin_qqdetail"] # 添加你的包名
+extra-standard-library = ["typing_extensions"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+[tool.pyright]
+pythonVersion = "3.10"
+pythonPlatform = "All"
+defineConstant = { PYDANTIC_V2 = true } # Pydantic V2 相关，如果你的NB版本依赖V1需要注意
+executionEnvironments = [
+  { root = "./tests", extraPaths = ["./"] },
+  { root = "./" },
+]
+typeCheckingMode = "standard"
+reportShadowedImports = false
+disableBytesTypePromotions = true
+
+# --- 如果你使用 hatchling 构建，可能需要添加以下部分 ---
+# --- 确保这部分与你的项目结构（代码是否在子目录）匹配 ---
 [tool.hatch.build.targets.sdist]
-# 包含在源码分发包 (sdist) 中的文件
 include = [
-    "/nonebot_plugin_qqdetail", # <-- 包含你的插件代码目录
+    "/nonebot_plugin_qqdetail", # 包含你的插件代码目录
     "/pyproject.toml",
     "/README.md",
-    "/LICENSE",                 # <-- 如果你有 LICENSE 文件，确保它包含在内
+    "/LICENSE", # 如果有 LICENSE 文件
 ]
 
 [tool.hatch.build.targets.wheel]
-# 包含在 wheel 包中的 Python 包目录
-# 这告诉构建系统 `nonebot_plugin_qqdetail` 是一个可导入的包
-packages = ["nonebot_plugin_qqdetail"]
+packages = ["nonebot_plugin_qqdetail"] # 指定包含的 Python 包
