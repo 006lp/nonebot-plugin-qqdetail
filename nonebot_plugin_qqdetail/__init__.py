@@ -17,7 +17,7 @@ from nonebot_plugin_alconna.uniseg import At, Text # Text 主要用于 Match[Tex
 from .config import config, Config
 
 __plugin_meta__ = PluginMetadata(
-    name="QQ详细信息查询 (Alconna v2)",
+    name="QQ账号详细信息查询",
     description="让机器人查询QQ详细信息 (使用 Alconna 解析)",
     usage="/detail[空格]<QQ号|@用户>\n/info[空格]<QQ号|@用户>\n(无参数查询自己)",
     type="application",

@@ -511,7 +511,7 @@ wheels = [
 
 [[package]]
 name = "nonebot-plugin-qqdetail"
-version = "1.4.3"
+version = "1.4.4"
 source = { editable = "." }
 dependencies = [
     { name = "arclet-alconna" },
