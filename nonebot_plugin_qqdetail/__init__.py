@@ -5,7 +5,7 @@ from nonebot.log import logger
 from typing import Union, Optional
 from nonebot.adapters.onebot.v11 import Message, MessageSegment, Bot
 from nonebot.adapters.onebot.v11 import GroupMessageEvent, PrivateMessageEvent
-from nonebot.plugin import PluginMetadata
+from nonebot.plugin import PluginMetadata, inherit_supported_adapters
 import re
 
 require("nonebot_plugin_alconna")
@@ -23,7 +23,7 @@ __plugin_meta__ = PluginMetadata(
     type="application",
     homepage="https://github.com/006lp/nonebot-plugin-qqdetail",
     config=Config,
-    supported_adapters={"~onebot.v11"}
+    supported_adapters=inherit_supported_adapters("nonebot_plugin_alconna")
 )
 
 actual_prefixes: list[str] = []
