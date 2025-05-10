@@ -12,7 +12,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nonebot-plugin-qqdetail" # 插件发布名称
-version = "1.3.0"                # 当前版本号 (请根据实际情况修改)
+version = "1.4.2"                # 当前版本号 (请根据实际情况修改)
 description = "让机器人查询QQ详细信息 (使用正则严格匹配)" # 使用 __plugin_meta__ 中的描述
 readme = "README.md"
 authors = [{ name = "006lp", email = "kirakirai8023@gmail.com" }] # 你的作者信息
