@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nonebot-plugin-qqdetail"
-version = "2.0.0"
+version = "2.0.1-beta"
 description = "让机器人查询QQ详细信息 (使用OneBot API)"
 readme = "README.md"
 authors = [{ name = "006lp", email = "006lpsuki@gmail.com" }]

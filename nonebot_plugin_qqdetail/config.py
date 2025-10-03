@@ -54,6 +54,16 @@ class RateLimitConfig(BaseModel):
     white_users: List[str] = Field(default_factory=list, description="用户白名单")
 
 
+class ImageStyleConfig(BaseModel):
+    """图片样式配置"""
+    font_size: int = Field(default=35, description="字体大小")
+    text_padding: int = Field(default=10, description="文本与边框的间距")
+    avatar_size: Optional[int] = Field(default=None, description="头像大小（None 表示与文本高度一致）")
+    border_thickness: int = Field(default=10, description="边框厚度")
+    border_color: tuple[int, int, int] = Field(default=(38, 38, 38), description="边框颜色 RGB")
+    corner_radius: int = Field(default=30, description="圆角大小")
+
+
 class Config(BaseModel):
     """插件配置"""
     qqdetail_only_admin: bool = Field(default=False, description="仅管理员可用")
@@ -62,3 +72,4 @@ class Config(BaseModel):
     qqdetail_auto_box_config: AutoBoxConfig = Field(default_factory=AutoBoxConfig)
     qqdetail_rate_limit_config: RateLimitConfig = Field(default_factory=RateLimitConfig)
     qqdetail_display_config: DisplayConfig = Field(default_factory=DisplayConfig)
+    qqdetail_image_style_config: ImageStyleConfig = Field(default_factory=ImageStyleConfig)
