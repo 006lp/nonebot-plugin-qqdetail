@@ -172,3 +172,15 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Vibe Coding Files
+.serena/
+.tmp/
+.uv-cache/
+pytest-cache-files-*/
+docs/
+.a*/
+.codex/
+SPEC.md
+ARCHITECTURE.md
+CHANGELOG.md

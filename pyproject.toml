@@ -1,123 +1,32 @@
-# pyproject.toml
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "nonebot-plugin-qqdetail"
-version = "2.0.1-beta"
-description = "让机器人查询QQ详细信息 (使用OneBot API)"
+version = "3.0.0"
+description = "NoneBot2 QQ public profile detail query plugin"
 readme = "README.md"
-authors = [{ name = "006lp", email = "006lpsuki@gmail.com" }]
-urls = { Repository = "https://github.com/006lp/nonebot-plugin-qqdetail" }
-requires-python = ">=3.10,<4.0"
+requires-python = ">=3.10"
 dependencies = [
-  "nonebot2[fastapi]>=2.4.2,<3.0.0",
-  "nonebot-adapter-onebot>=2.4.6,<3.0.0",
-  "httpx>=0.27.0,<1.0.0",
-  "arclet-alconna>=1.8.37",
-  "nonebot-plugin-alconna>=0.57.4",
-  "emoji>=2.15.0",
-  "pillow>=11.3.0",
-  "nonebot-plugin-localstore>=0.7.4",
+    "nonebot-adapter-onebot>=2.4.6",
+    "nonebot-plugin-alconna>=0.62.0",
+    "nonebot2>=2.5.0",
 ]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Framework :: AsyncIO",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU Affero General Public License v3", 
-    "Operating System :: OS Independent",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Communications :: Chat",
-    "Topic :: Utilities",
-]
-keywords = ["qq", "detail", "info", "nonebot", "nonebot2", "plugin"]
 
 [dependency-groups]
 dev = [
-  "nonebot2[fastapi]>=2.4.2,<3.0.0",
-  "ruff>=0.11.2,<1.0.0",
+    "pytest>=9.1.1",
+    "ruff>=0.15.18",
 ]
-
-test = [
-  "nonebot2[fastapi]>=2.4.2,<3.0.0",
-  "nonebot-adapter-onebot>=2.4.6,<3.0.0",
-  "nonebug>=0.3.7,<1.0.0",
-  "pytest-xdist>=3.6.1,<4.0.0",
-  "pytest-asyncio>=0.26.0,<1.0.0",
-]
-
-[tool.nonebot]
-plugins = ["nonebot_plugin_qqdetail"]
 
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "session"
-pythonpath = [".", "nonebot_plugin_qqdetail", "tests"]
-addopts = [
-  "-v",
-  "-s",
-  "--tb=short",
-  "-ra",
-  "--strict-markers",
-  # "--doctest-modules",
-  "--import-mode=prepend",
-]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"
 
 [tool.ruff]
-line-length = 120
-target-version = "py310"
-
-[tool.ruff.format]
-line-ending = "lf"
-
-[tool.ruff.lint]
-select = [
-  "F", "W", "E", "I", "UP", "ASYNC", "C4", "T10", "T20", "PYI", "PT", "Q", "TID", "RUF",
+cache-dir = ".tmp/ruff-cache"
+exclude = [
+    ".git",
+    ".ruff_cache",
+    ".uv-cache",
+    ".venv",
+    "docs/",
 ]
-ignore = [
-  "E402", "UP037", "RUF001", "RUF002", "RUF003", "W191", "TID252",
-]
-
-[tool.ruff.lint.isort]
-force-sort-within-sections = true
-known-first-party = ["tests/*", "nonebot_plugin_qqdetail"]
-extra-standard-library = ["typing_extensions"]
-
-[tool.ruff.lint.flake8-pytest-style]
-fixture-parentheses = false
-mark-parentheses = false
-
-[tool.ruff.lint.pyupgrade]
-keep-runtime-typing = true
-
-[tool.pyright]
-pythonVersion = "3.10"
-pythonPlatform = "All"
-defineConstant = { PYDANTIC_V2 = true }
-executionEnvironments = [
-  { root = "./tests", extraPaths = ["./"] },
-  { root = "./" },
-]
-typeCheckingMode = "standard"
-reportShadowedImports = false
-disableBytesTypePromotions = true
-
-# --- 如果你使用 hatchling 构建，可能需要添加以下部分 ---
-# --- 确保这部分与你的项目结构（代码是否在子目录）匹配 ---
-[tool.hatch.build.targets.sdist]
-include = [
-    "/nonebot_plugin_qqdetail", # 包含你的插件代码目录
-    "/nonebot_plugin_qqdetail/assets", # 包含资源文件
-    "/pyproject.toml",
-    "/README.md",
-    "/LICENSE", # 如果有 LICENSE 文件
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["nonebot_plugin_qqdetail"] # 指定包含的 Python 包
