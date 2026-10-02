@@ -65,9 +65,11 @@ async def test_cancel_tasks_per_bot():
 
 
 async def test_failed_recall_is_contained():
+    from nonebot.adapters.onebot.v11 import ActionFailed
+
     from nonebot_plugin_qqdetail.delivery import MessageSender
 
-    receipt = SimpleNamespace(recall=AsyncMock(side_effect=RuntimeError()))
+    receipt = SimpleNamespace(recall=AsyncMock(side_effect=ActionFailed()))
     await MessageSender._recall(receipt, 0)
     receipt.recall.assert_awaited_once()
 

@@ -1,4 +1,4 @@
-from arclet.alconna import Arparma, MultiVar, Option
+from arclet.alconna import MultiVar, Option
 from nonebot import get_driver, get_plugin_config, logger, on_notice
 from nonebot.adapters import Bot as BaseBot
 from nonebot.adapters.onebot.v11 import (
@@ -7,8 +7,9 @@ from nonebot.adapters.onebot.v11 import (
     GroupIncreaseNoticeEvent,
     GroupMessageEvent,
     MessageEvent,
+    OneBotV11AdapterException,
 )
-from nonebot_plugin_alconna import Alconna, AlconnaMatches, Args, UniMessage, on_alconna
+from nonebot_plugin_alconna import AlcMatches, Alconna, Args, UniMessage, on_alconna
 from nonebot_plugin_alconna.uniseg import At, AtAll, Target
 
 from .api import ProfileUnavailable, fetch_profile
@@ -70,14 +71,12 @@ async def query_and_send(
         await sender.send(
             bot, destination, messages, recall_time=config.qqdetail_recall_time
         )
-    except Exception as exc:
+    except OneBotV11AdapterException as exc:
         logger.warning(f"QQDetail query or send failed ({type(exc).__name__})")
 
 
 @qqdetail.handle()
-async def handle_qqdetail(
-    bot: Bot, event: MessageEvent, result: Arparma = AlconnaMatches()
-) -> None:
+async def handle_qqdetail(bot: Bot, event: MessageEvent, result: AlcMatches) -> None:
     if "text" in result.options and "image" in result.options:
         await qqdetail.finish(UniMessage.text("--text 与 --image 不能同时使用"))
     arguments = []
@@ -113,7 +112,7 @@ async def handle_qqdetail(
         if denial:
             try:
                 await qqdetail.send(UniMessage.text(f"QQ {target_id}：{denial}"))
-            except Exception as exc:
+            except OneBotV11AdapterException as exc:
                 logger.warning(f"QQDetail denial send failed ({type(exc).__name__})")
             continue
         await query_and_send(bot, destination, target_id, group_id, output_mode=mode)

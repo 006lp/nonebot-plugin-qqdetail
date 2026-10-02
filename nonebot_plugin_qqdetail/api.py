@@ -3,7 +3,7 @@ from collections.abc import Mapping
 from typing import Any
 
 from nonebot import logger
-from nonebot.adapters.onebot.v11 import Bot
+from nonebot.adapters.onebot.v11 import Bot, OneBotV11AdapterException
 
 from .profile import ProfileData
 
@@ -16,7 +16,7 @@ async def _fetch(bot: Bot, api: str, **params: Any) -> dict[str, Any]:
     try:
         result = await asyncio.wait_for(bot.call_api(api, **params), timeout=15)
         return dict(result) if isinstance(result, Mapping) else {}
-    except Exception as exc:
+    except (OneBotV11AdapterException, TimeoutError) as exc:
         # API exception bodies may include personal data.
         logger.warning(f"QQDetail {api} failed ({type(exc).__name__})")
         return {}

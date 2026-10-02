@@ -34,15 +34,17 @@
 
 ## 💿 安装
 
-需要 **Python 3.10+、NoneBot2 2.5.0+、nonebot-plugin-alconna 0.62.1+**，以及已连接的 **OneBot V11** 适配器与协议端。
-
-### 使用 nb-cli
+<details open>
+<summary>使用 nb-cli</summary>
 
 ~~~shell
 nb plugin install nonebot-plugin-qqdetail
 ~~~
 
-### 使用包管理器
+</details>
+
+<details>
+<summary>使用包管理器</summary>
 
 在机器人项目根目录执行：
 
@@ -63,6 +65,7 @@ plugins = ["nonebot_plugin_qqdetail"]
 nonebot.load_plugin("nonebot_plugin_qqdetail")
 ~~~
 
+</details>
 <a id="usage"></a>
 
 ## 🎉 使用
@@ -120,7 +123,7 @@ QQ等级：太阳x1 月亮x1 (20)
 | `qqdetail_auto_exit` | `false` | 自动查询主动退群成员；踢人不触发 |
 | `qqdetail_auto_groups` | `[]` | 自动查询的群白名单；为空时适用于全部群 |
 
-**常用配置示例：**
+### 常用配置示例：
 
 ~~~dotenv
 QQDETAIL_OUTPUT_MODE=image
@@ -129,7 +132,7 @@ QQDETAIL_DESENSITIZE=true
 QQDETAIL_DISPLAY_OPTIONS=["QQ号","昵称","群昵称","性别","QQ等级","签名"]
 ~~~
 
-### 查询权限与群通知
+**查询权限与群通知**
 
 ~~~dotenv
 QQDETAIL_ONLY_ADMIN=true
@@ -144,7 +147,8 @@ QQDETAIL_AUTO_GROUPS=["234567"]
 
 自动通知跳过机器人、SUPERUSERS 和保护名单，不受手动查询的 `qqdetail_only_admin` 限制，也不阻断其他插件。通知查询失败时保持静默。
 
-### 全部展示字段
+<details>
+<summary>全部展示字段</summary>
 
 中文标签与字段键均可用于 `qqdetail_display_options`，展示顺序如下：
 
@@ -201,6 +205,7 @@ QQDETAIL_DISPLAY_OPTIONS=["QQ号","nickname","card","qqLevel","long_nick"]
 ~~~
 
 默认启用全部字段，UID 除外。缺失和无效字段会跳过，未开启的标志不会显示为“否”。生肖按农历春节划分，时间统一为 UTC+8；协议端返回的歧义家乡编码保留原值。
+</details>
 
 <a id="faq"></a>
 
@@ -255,5 +260,4 @@ uv pip install "nonebot2[fastapi]" nonebug pytest pytest-asyncio ruff
 
 ## 🙏 致谢
 
-[astrbot_plugin_box](https://github.com/Zhalslar/astrbot_plugin_box)，本插件参考了其设计思路。
-
+- [astrbot_plugin_box](https://github.com/Zhalslar/astrbot_plugin_box)为本插件的设计思路提供参考。

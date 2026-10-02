@@ -1,7 +1,7 @@
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from functools import partial
 from typing import Any, Literal
 
@@ -162,8 +162,9 @@ def constellation(month: int, day: int) -> str:
 
 def zodiac(birthday: date) -> str | None:
     try:
+        # zhdate requires naive datetimes; birthdays are calendar dates.
         lunar_year = ZhDate.from_datetime(
-            datetime(birthday.year, birthday.month, birthday.day)
+            datetime.combine(birthday, time.min)
         ).lunar_year
     except (TypeError, ValueError, IndexError, AttributeError, AssertionError):
         return None

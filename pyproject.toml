@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-qqdetail"
-version = "3.0.0-alpha"
+version = "3.0.0a1"
 description = "NoneBot2 QQ public profile detail query plugin"
 readme = "README.md"
 requires-python = ">=3.10"

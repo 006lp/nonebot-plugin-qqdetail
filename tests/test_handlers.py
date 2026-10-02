@@ -1,5 +1,6 @@
 import pytest
 from nonebot.adapters.onebot.v11 import (
+    ActionFailed,
     GroupDecreaseNoticeEvent,
     GroupIncreaseNoticeEvent,
     Message,
@@ -95,11 +96,11 @@ async def test_failed_target_does_not_abort_batch(
     async with app.test_matcher(qqdetail) as ctx:
         ctx.receive_event(onebot(ctx), message_event("/qqdetail 40000 50000 --text"))
         ctx.should_pass_rule(qqdetail)
-        expect_query(ctx, 40000, stranger=RuntimeError())
+        expect_query(ctx, 40000, stranger=ActionFailed())
         expect_message(
             ctx,
             "QQ 40000：无效 QQ 号或资料不可用",
-            exception=RuntimeError() if error_send_fails else None,
+            exception=ActionFailed() if error_send_fails else None,
         )
         expect_query(ctx, 50000)
         expect_message(ctx, "QQ号：50000\n昵称：测试")
@@ -201,7 +202,7 @@ async def test_notice_pipeline_with_missing_group_data(
     async with app.test_matcher(group_notice) as ctx:
         ctx.receive_event(onebot(ctx), notice(kind))
         ctx.should_pass_rule(group_notice)
-        expect_query(ctx, member=RuntimeError())
+        expect_query(ctx, member=ActionFailed())
         expect_message(ctx, "QQ号：20000\n昵称：测试")
     assert not group_notice.block
 

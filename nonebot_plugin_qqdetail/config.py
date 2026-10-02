@@ -30,7 +30,7 @@ class Config(BaseModel):
     @classmethod
     def normalize_ids(cls, value: object) -> set[str]:
         if not isinstance(value, (list, tuple, set, frozenset)):
-            raise ValueError("IDs must be a collection of positive numeric values")
+            raise TypeError("IDs must be a collection of positive numeric values")
         return {normalize_id(item) for item in value}
 
     @field_validator("qqdetail_display_options")

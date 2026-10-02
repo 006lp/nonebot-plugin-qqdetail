@@ -36,17 +36,25 @@ jobs:
       - name: Setup uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Install build dependencies
+        run: uv pip install --system "uv_build>=0.12.22,<0.13" packaging
+
       - name: Validate version
         run: |
           python - <<'PY'
           import os, tomllib
+          from packaging.version import InvalidVersion, Version
+
           with open("pyproject.toml", "rb") as file:
               version = tomllib.load(file)["project"]["version"]
-          assert os.environ["RELEASE_TAG"] == f"v{version}", "Tag must match project version"
+          tag = os.environ["RELEASE_TAG"]
+          try:
+              matches = tag.startswith("v") and Version(tag[1:]) == Version(version)
+          except InvalidVersion as exc:
+              raise SystemExit(f"Invalid PEP 440 release tag: {tag}") from exc
+          if not matches:
+              raise SystemExit(f"Tag {tag} must match project version v{version}")
           PY
-
-      - name: Install build backend
-        run: uv pip install --system "uv_build>=0.12.22,<0.13"
 
       - name: Build wheel and sdist
         run: uv build --no-build-isolation

@@ -2,6 +2,7 @@ from datetime import date
 from unittest.mock import AsyncMock
 
 import pytest
+from nonebot.adapters.onebot.v11 import ActionFailed
 from pydantic import ValidationError
 
 
@@ -259,9 +260,9 @@ def test_permission(sender, target, only_admin, protected, admins, allowed):
 @pytest.mark.parametrize(
     ("stranger", "member", "success"),
     [
-        (RuntimeError(), {"nickname": "群昵称"}, True),
-        ({"nickname": "昵称"}, RuntimeError(), True),
-        (RuntimeError(), RuntimeError(), False),
+        (ActionFailed(), {"nickname": "群昵称"}, True),
+        ({"nickname": "昵称"}, ActionFailed(), True),
+        (ActionFailed(), ActionFailed(), False),
         ({}, {}, False),
         ({"user_id": 20000}, {}, False),
         ([], None, False),

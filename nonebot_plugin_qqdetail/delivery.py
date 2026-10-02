@@ -2,7 +2,7 @@ import asyncio
 from collections.abc import Awaitable, Callable, Sequence
 
 from nonebot import logger
-from nonebot.adapters.onebot.v11 import Bot
+from nonebot.adapters.onebot.v11 import Bot, OneBotV11AdapterException
 from nonebot_plugin_alconna import UniMessage
 from nonebot_plugin_alconna.uniseg import Receipt, Target
 
@@ -19,7 +19,7 @@ async def build_messages(
                 UniMessage.image(raw=page, mimetype="image/png")
                 for page in await render(target_id, lines)
             ]
-        except Exception as exc:
+        except (OSError, ValueError) as exc:
             logger.warning(
                 f"QQDetail card rendering failed ({type(exc).__name__}); using text"
             )
@@ -56,7 +56,7 @@ class MessageSender:
         try:
             await asyncio.sleep(delay)
             await receipt.recall()
-        except Exception as exc:
+        except OneBotV11AdapterException as exc:
             logger.warning(f"QQDetail recall failed ({type(exc).__name__})")
 
     async def cancel(self, bot_id: str | None = None) -> None:
