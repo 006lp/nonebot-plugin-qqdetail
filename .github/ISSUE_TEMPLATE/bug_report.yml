@@ -1,0 +1,158 @@
+name: Bug 反馈
+title: "Bug: "
+description: 反馈 nonebot-plugin-qqdetail 在资料查询、权限、通知、消息发送或渲染中的异常
+labels: ["bug"]
+assignees: ["006lp"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。提交前请先搜索已有 Issue，并确认日志、配置和截图中没有 Cookie、Token、群号、QQ 号等敏感信息。
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已搜索已有 Issue，确认这不是重复问题
+          required: true
+        - label: 我已去除日志、配置和截图中的敏感信息
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 问题类型
+      description: 选择最接近的故障范围
+      options:
+        - 命令解析或参数识别
+        - OneBot 资料接口或字段转换
+        - 权限或保护名单
+        - 图片 / 文本发送与撤回
+        - 资料卡片渲染或头像
+        - 入群 / 退群通知
+        - 安装、导入或启动
+        - 其他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: command
+    attributes:
+      label: 受影响的命令
+      options:
+        - qqdetail / qq资料 / 查qq / 查q
+        - box / 盒 / 开盒
+        - 入群或主动退群通知
+        - 插件导入或启动
+        - 不确定 / 其他
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: 插件版本
+      description: 填写 PyPI 版本、Git commit 或安装来源
+      placeholder: "例如：3.0.0 / v3-dev@abcdef0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 操作系统
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Docker / 容器
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: 运行环境版本
+      description: 填写 NoneBot、Python、适配器、协议端和关键依赖版本
+      placeholder: |
+        Python: 3.12.x
+        nonebot2: 2.5.x
+        nonebot-plugin-alconna: 0.62.x
+        Pillow: 12.x
+        adapter: nonebot-adapter-onebot x.x.x
+        protocol client: NapCat x.x.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: 相关配置
+      description: 只贴与本插件相关的配置，注意脱敏
+      placeholder: |
+        COMMAND_START=["/"]
+        QQDETAIL_OUTPUT_MODE=text
+        QQDETAIL_RECALL_TIME=0
+        QQDETAIL_ONLY_ADMIN=false
+        QQDETAIL_AUTO_ENTER=false
+    validations:
+      required: true
+
+  - type: textarea
+    id: input
+    attributes:
+      label: 触发命令或输入
+      description: 填写触发命令、输出模式或群通知类型，用示例 QQ 号代替真实账号
+      placeholder: |
+        /qqdetail 123456 --text
+        QQDETAIL_OUTPUT_MODE=image
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际表现
+      description: 说明实际发生了什么，包括机器人回复、异常提示或无响应情况
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望表现
+      description: 说明你认为应该发生什么
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 提供稳定复现问题的步骤；如果偶发，请说明频率和触发条件
+      placeholder: |
+        1. 设置 QQDETAIL_OUTPUT_MODE=image
+        2. 启动 NoneBot 并连接 OneBot V11 协议端
+        3. 发送 /qqdetail
+        4. 出现 xxx 异常
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志
+      description: 建议开启 LOG_LEVEL=DEBUG 后贴出从命令解析到异常结束的完整日志；请勿上传敏感信息
+      render: text
+      placeholder: |
+        贴出 NoneBot 日志、Traceback、HTTP 状态码等；接口资料需脱敏。
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其他信息
+      description: 例如截图、是否仅在群聊发生、是否仅某个协议端触发等

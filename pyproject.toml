@@ -1,32 +1,28 @@
 [project]
 name = "nonebot-plugin-qqdetail"
-version = "3.0.0"
+version = "3.0.0-alpha"
 description = "NoneBot2 QQ public profile detail query plugin"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
 dependencies = [
+    "emoji>=2.16,<3",
+    "httpx>=0.28,<1",
     "nonebot-adapter-onebot>=2.4.6",
-    "nonebot-plugin-alconna>=0.62.0",
+    "nonebot-plugin-alconna>=0.62.1",
     "nonebot2>=2.5.0",
+    "pillow>=12.3",
+    "pydantic>=2.13,<3",
+    "zhdate>=0.1",
 ]
 
-[dependency-groups]
-dev = [
-    "pytest>=9.1.1",
-    "ruff>=0.15.18",
-]
+[project.urls]
+Homepage = "https://github.com/006lp/nonebot-plugin-qqdetail"
 
-[tool.pytest.ini_options]
-pythonpath = ["."]
-testpaths = ["tests"]
-addopts = "-p no:cacheprovider"
+[build-system]
+requires = ["uv_build>=0.12.22,<0.13"]
+build-backend = "uv_build"
 
-[tool.ruff]
-cache-dir = ".tmp/ruff-cache"
-exclude = [
-    ".git",
-    ".ruff_cache",
-    ".uv-cache",
-    ".venv",
-    "docs/",
-]
+[tool.uv.build-backend]
+module-root = ""
